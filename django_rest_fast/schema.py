@@ -50,13 +50,13 @@ def generate_schema() -> Dict:
     for fn, params in methods_list():
         url = method_url(params)
 
-        parameters = form_params(fn._form, fn._method) if fn._form else []
-        method_name, method_desc = method_description(fn._doc)
+        parameters = form_params(fn.form, fn.http_method) if fn.form else []
+        method_name, method_desc = method_description(fn.doc)
         method = {
-            fn._method: {
+            fn.http_method: {
                 'summary': method_name,
                 'description': method_desc,
-                'tags': fn._tags,
+                'tags': fn.tags,
                 'parameters': parameters,
             }
         }
