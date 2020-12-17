@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from .conf import DJANGO_REST_FAST
-from .schema import methods_list, form_params, generate_schema
+from .schema import generate_schema
 
 
 def docs(request):

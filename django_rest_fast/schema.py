@@ -58,6 +58,7 @@ def generate_schema() -> Dict:
                 'description': method_desc,
                 'tags': fn.tags,
                 'parameters': parameters,
+                'responses': {},
             }
         }
         schema['paths'][url] = method
