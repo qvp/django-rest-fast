@@ -1,10 +1,9 @@
-from inspect import isfunction
-
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.urls import get_resolver
 
 from .conf import DJANGO_REST_FAST
+from .format import method_description, method_url
+from .schema import methods_list
 
 
 def docs(request):
@@ -23,15 +22,9 @@ def schema(request):
         'paths': {},
     }
 
-    url_resolver = get_resolver()
-    for fn, params in url_resolver.reverse_dict.items():
-        if not isfunction(fn) or fn.__name__ != 'wrapper':
-            continue
-
-        url = '/' + params[0][0][0]
-        url = url.replace('%(', '{')
-        url = url.replace(')s', '}')
-
+    for fn, params in methods_list():
+        url = method_url(params)
+        
         parameters = None
         if fn._form:
             parameters = []
@@ -46,9 +39,11 @@ def schema(request):
                     }
                 })
 
+        method_name, method_desc = method_description(fn._doc)
         method = {
             fn._method: {
-                'summary': fn._doc,
+                'summary': method_name,
+                'description': method_desc,
                 'tags': fn._tags,
                 'parameters': parameters,
             }
