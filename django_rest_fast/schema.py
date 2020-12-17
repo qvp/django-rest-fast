@@ -34,6 +34,21 @@ def form_params(form: Form, http_method) -> List:
     return params
 
 
+def generate_method_schema(fn, params) -> Dict:
+    parameters = form_params(fn.form, fn.http_method) if fn.form else []
+    method_name, method_desc = method_description(fn.doc)
+    method_schema = {
+        fn.http_method: {
+            'summary': method_name,
+            'description': method_desc,
+            'tags': fn.tags,
+            'parameters': parameters,
+            'responses': {},
+        }
+    }
+    return method_schema
+
+
 def generate_schema() -> Dict:
     """Generate swagger schema."""
     schema = {
@@ -49,17 +64,6 @@ def generate_schema() -> Dict:
 
     for fn, params in methods_list():
         url = method_url(params)
-
-        parameters = form_params(fn.form, fn.http_method) if fn.form else []
-        method_name, method_desc = method_description(fn.doc)
-        method = {
-            fn.http_method: {
-                'summary': method_name,
-                'description': method_desc,
-                'tags': fn.tags,
-                'parameters': parameters,
-                'responses': {},
-            }
-        }
-        schema['paths'][url] = method
+        method_schema = generate_method_schema(fn, params)
+        schema['paths'][url] = method_schema
     return schema
