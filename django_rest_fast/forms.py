@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from django.forms import (
     Form,
@@ -10,18 +10,31 @@ from django.forms import (
 )
 
 
-def field_type(field: Field) -> str:
+def field_schema(field: Field) -> Dict:
     """Get data type of field."""
-    if isinstance(field, IntegerField):
-        return 'integer'
     if isinstance(field, BooleanField):
-        return 'boolean'
+        return {
+            'type': 'boolean',
+        }
     if isinstance(field, FloatField) or isinstance(field, DecimalField):
-        return 'number'
-    return 'string'
+        return {
+            'type': 'number',
+            'minimum': field.min_value,
+            'maximum': field.max_value,
+        }
+    if isinstance(field, IntegerField):
+        return {
+            'type': 'integer',
+            'minimum': field.min_value,
+            'maximum': field.max_value,
+        }
+    # todo array, object
+    return {
+            'type': 'string',
+        }
 
 
-def form_params(form: Form, http_method) -> List:
+def form_schema(form: Form, http_method: str) -> List:
     """Get form parameters."""
     params = []
     for field in form():
@@ -30,8 +43,6 @@ def form_params(form: Form, http_method) -> List:
             'name': field.name,
             'required': field.field.required,
             'description': field.help_text,
-            'schema': {
-                'type': field_type(field),
-            }
+            'schema': field_schema(field.field)
         })
     return params
