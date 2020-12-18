@@ -25,7 +25,7 @@ def form_params(form: Form, http_method) -> List:
         params.append({
             'in': 'query' if http_method == 'get' else 'body',
             'name': field.name,
-            # 'required': field.required,  # fixme
+            'required': field.field.required,
             'description': field.help_text,
             'schema': {
                 'type': 'string'
