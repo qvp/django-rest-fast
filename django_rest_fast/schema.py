@@ -1,11 +1,11 @@
 from inspect import isfunction
-from typing import List, Dict
+from typing import Dict
 
 from django.urls import get_resolver
-from django.forms import Form
 
 from .conf import DJANGO_REST_FAST
 from .format import method_description, method_url
+from .forms import form_params
 
 
 def methods_list():
@@ -16,22 +16,6 @@ def methods_list():
         if isfunction(fn) and fn.__name__ == 'drf_wrapper':
             items.append((fn, params))
     return items
-
-
-def form_params(form: Form, http_method) -> List:
-    """Get form parameters."""
-    params = []
-    for field in form():
-        params.append({
-            'in': 'query' if http_method == 'get' else 'body',
-            'name': field.name,
-            'required': field.field.required,
-            'description': field.help_text,
-            'schema': {
-                'type': 'string'
-            }
-        })
-    return params
 
 
 def generate_method_schema(fn, params) -> Dict:
