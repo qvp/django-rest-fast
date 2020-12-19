@@ -1,8 +1,14 @@
 from django import forms
 
+from .models import User
 
-class BarForm(forms.Form):
-    name = forms.CharField(max_length=100)
+
+class UserLoginForm(forms.Form):
     email = forms.EmailField()
-    price = forms.DecimalField(min_value=0.1)
-    description = forms.CharField(max_length=1000, required=False)
+    price = forms.CharField(min_length=8, max_length=20)
+
+
+class UserRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = '__all__'

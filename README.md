@@ -1,7 +1,6 @@
 # Django REST Fast
 Fast create REST API with Swagger documentation based on native django views and forms.
-
-Inspired by [FastAPI](https://fastapi.tiangolo.com/).
+Automatically generates swagger documentation based on django forms and url config.
 
 ### Installation
 ```shell
