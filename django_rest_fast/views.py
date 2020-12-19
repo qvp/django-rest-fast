@@ -9,5 +9,6 @@ def docs(request):
 
 
 def schema(request):
-    schema_dict = generate_schema()
+    server_url = 'http://localhost:' + request.META['SERVER_PORT']
+    schema_dict = generate_schema(server_url)
     return JsonResponse(schema_dict)

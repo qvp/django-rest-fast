@@ -8,6 +8,7 @@ DJANGO_REST_FAST = {
         'title': 'Django REST Fast',
         'description': '',
     },
+    'servers': [],
 }
 
 try:

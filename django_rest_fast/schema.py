@@ -33,16 +33,12 @@ def generate_method_schema(fn, params) -> Dict:
     return method_schema
 
 
-def generate_schema() -> Dict:
+def generate_schema(server_url) -> Dict:
     """Generate swagger schema."""
     schema = {
         'openapi': '3.0.0',
         'info': DJANGO_REST_FAST['info'],
-        'servers': [
-            {
-                'url': 'http://localhost:3090',  # fixme
-            },
-        ],
+        'servers': DJANGO_REST_FAST['servers'] if DJANGO_REST_FAST['servers'] else [{'url': server_url}],
         'paths': {},
     }
 
