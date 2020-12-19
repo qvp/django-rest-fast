@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from .schema import generate_schema
+from .schema import api_schema
 
 
 def docs(request):
@@ -10,5 +10,5 @@ def docs(request):
 
 def schema(request):
     server_url = 'http://localhost:' + request.META['SERVER_PORT']
-    schema_dict = generate_schema(server_url)
+    schema_dict = api_schema(server_url)
     return JsonResponse(schema_dict)

@@ -1,5 +1,5 @@
 from inspect import isfunction
-from typing import Dict
+from typing import Dict, List
 
 from django.urls import get_resolver
 
@@ -8,7 +8,7 @@ from .format import method_description, method_url
 from .forms import form_schema
 
 
-def methods_list():
+def methods_list() -> List:
     """List of DRF decorated views methods."""
     items = []
     url_resolver = get_resolver()
@@ -18,10 +18,10 @@ def methods_list():
     return items
 
 
-def generate_method_schema(fn, params) -> Dict:
+def method_schema(fn, params) -> Dict:
     parameters = form_schema(fn.form, fn.http_method) if fn.form else []
     method_name, method_desc = method_description(fn.doc)
-    method_schema = {
+    method_schema_ = {
         fn.http_method: {
             'summary': method_name,
             'description': method_desc,
@@ -30,11 +30,11 @@ def generate_method_schema(fn, params) -> Dict:
             'responses': {},
         }
     }
-    return method_schema
+    return method_schema_
 
 
-def generate_schema(server_url) -> Dict:
-    """Generate swagger schema."""
+def api_schema(server_url) -> Dict:
+    """Generate api schema."""
     schema = {
         'openapi': '3.0.0',
         'info': DJANGO_REST_FAST['info'],
@@ -44,6 +44,5 @@ def generate_schema(server_url) -> Dict:
 
     for fn, params in methods_list():
         url = method_url(params)
-        method_schema = generate_method_schema(fn, params)
-        schema['paths'][url] = method_schema
+        schema['paths'][url] = method_schema(fn, params)
     return schema
