@@ -15,6 +15,8 @@ setup(
     url='https://github.com/qvp/django-rest-fast',
     download_url='',
     license='MIT',
-    install_requires=[],
+    install_requires=[
+        'django>=3.0',
+    ],
     python_requires='>=3.6'
 )
