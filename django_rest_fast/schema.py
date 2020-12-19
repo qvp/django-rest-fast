@@ -6,6 +6,7 @@ from django.urls import get_resolver
 from .conf import DJANGO_REST_FAST
 from .format import method_description, method_url
 from .forms import form_schema
+from .paths import path_schema
 
 
 def methods_list() -> List:
@@ -19,7 +20,9 @@ def methods_list() -> List:
 
 
 def method_schema(fn, params) -> Dict:
-    parameters = form_schema(fn.form, fn.http_method) if fn.form else []
+    """Generate method schema"""
+    parameters = path_schema(params)
+    parameters.extend(form_schema(fn.form, fn.http_method) if fn.form else [])
     method_name, method_desc = method_description(fn.doc)
     method_schema_ = {
         fn.http_method: {
