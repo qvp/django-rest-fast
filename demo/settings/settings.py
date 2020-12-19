@@ -137,6 +137,8 @@ LOGGING = {
 
 DJANGO_REST_FAST = {
     'info': {
-        'version': '1.1.9',
+        'version': '1.3.1',
+        'title': 'My Blog API',
+        'description': 'Blog about everything.',
     },
 }
