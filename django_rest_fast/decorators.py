@@ -8,6 +8,21 @@ def post(form=None, tags=None):
     return _decorator('post', form, tags)
 
 
+def put(form=None, tags=None):
+    """Add method to swagger doc as PUT."""
+    return _decorator('put', form, tags)
+
+
+def patch(form=None, tags=None):
+    """Add method to swagger doc as PATH."""
+    return _decorator('patch', form, tags)
+
+
+def delete(form=None, tags=None):
+    """Add method to swagger doc as DELETE."""
+    return _decorator('delete', form, tags)
+
+
 def _decorator(http_method, form, tags):
     def decorator(function):
         def drf_wrapper(*args, **kwargs):
