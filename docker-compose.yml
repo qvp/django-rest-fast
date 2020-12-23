@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  django_rest_fast_demo:
+    build: .
+    container_name: django_rest_fast_demo
+    command: python demo/manage.py runserver 0.0.0.0:3090
+    ports:
+    - "3090:3090"
+    volumes:
+    - .:/home/app/web
