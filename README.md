@@ -80,4 +80,4 @@ Run demo:
 * `docker-compose up`
 * go to [http://localhost:3090/docs/](http://localhost:3090/docs/)
 
-![alt text](https://github.com/qvp/django-rest-fast/demo/preview.png?raw=true)
+![alt text](https://github.com/qvp/django-rest-fast/blob/main/demo/preview.png?raw=true)
