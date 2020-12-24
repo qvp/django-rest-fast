@@ -1,8 +1,19 @@
 # Django REST Fast
 Fast create REST API with Swagger documentation based on native django views and forms.
-Automatically generates swagger documentation based on django forms and url config.
 
-### Installation
+## Features:
+* Maximum native integration with django, it is enough to decorate the view.
+* `Form` and `ModelForm` automatically parsed and added parameters into the swagger.
+* Parameters in `urlpatterns` automatically parsed as path parameters and added to swagger.
+
+## Documentation
+
+* [Installation](#installation)
+* [Getting Started](#getting-started)
+* [Configuration](#configuration)
+* [Demo](#demo)
+
+## Installation
 ```shell
 pip install django-rest-fast
 ```
@@ -22,30 +33,27 @@ urlpatterns = [
 ]
 ```
 
-### Example
+## Getting Started
 ```python
-from django_rest_fast.decorators import get, post
-from django.http.response import HttpResponse
+# forms.py
+from django import forms
 
-from app.forms import BarForm
-
-
-@get(tags=['demo'])
-def foo(request):
-    """ Foo method."""
-    return HttpResponse('Foo')
+class UserLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(min_length=8, max_length=20)
 
 
-@post(form=BarForm, tags=['demo'])
-def bar(request):
-    """ Bar method."""
-    form = BarForm(data=request.POST)
-    if form.is_valid():
-        print('OK!')
-    return HttpResponse('Bar')
+# views.py
+from django_rest_fast.decorators import post
+
+@post(form=UserLoginForm, tags=['users'])
+def users_login_view(request):
+    """User login"""
+    pass
 ```
+More examples you can see in the [demo](#demo) application.
 
-### Configuration
+## Configuration
 The default is the following configuration from `django_rest_fast.conf`:
 ```python
 DJANGO_REST_FAST = {
@@ -64,3 +72,12 @@ DJANGO_REST_FAST = {
     },
 }
 ```
+
+## Demo
+Run demo:
+* `git clone git@github.com:qvp/django-rest-fast.git`
+* `cd django-rest-fast`
+* `docker-compose up`
+* go to [http://localhost:3090/docs/](http://localhost:3090/docs/)
+
+![alt text](https://github.com/qvp/django-rest-fast/demo/preview.png?raw=true)
