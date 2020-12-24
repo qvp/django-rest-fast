@@ -7,6 +7,7 @@ from django.forms import (
     BooleanField,
     FloatField,
     DecimalField,
+    FileField,
 )
 
 
@@ -27,6 +28,11 @@ def field_schema(field: Field) -> Dict:
             'type': 'integer',
             'minimum': field.min_value,
             'maximum': field.max_value,
+        }
+    if isinstance(field, FileField):
+        return {
+            'type': 'string',
+            'format': 'binary',
         }
     # todo array, object
     return {

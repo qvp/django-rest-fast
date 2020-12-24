@@ -1,62 +1,72 @@
+from django.http import QueryDict
 from django.http.response import JsonResponse
 from django_rest_fast.decorators import get, post, put, patch, delete
+from django.contrib.auth.views import get_user_model
 
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import (
+    UserLoginForm,
+    UserRegistrationForm,
+    PostCreateForm,
+)
+
+User = get_user_model()
+
+
+def demo_response(request):
+    return JsonResponse({
+        'message': 'This is a demo response',
+        'you_send': {
+            'query': request.GET,
+            'body': QueryDict(request.body),
+            'method': request.method,
+        },
+    })
 
 
 @post(form=UserLoginForm, tags=['users'])
 def users_login(request):
     """User login"""
-    return JsonResponse({'request_data': request.POST})
+    return demo_response(request)
 
 
 @post(form=UserRegistrationForm, tags=['users'])
 def users_registration(request):
     """User registration"""
-    return JsonResponse({'request_data': request.POST})
+    return demo_response(request)
 
 
 @get(tags=['blog'])
 def posts(request):
     """List of all blog posts"""
-    return JsonResponse({'items': []})
+    return demo_response(request)
 
 
-@post(tags=['blog'])
+@post(form=PostCreateForm, tags=['blog'])
 def posts_create(request):
     """
     Create new post.
 
-    ### Method description.
-    * aaa
-    * bbb
+    ### Markdown supported.
+    * item one
+    * item two
     """
-    # form = BarForm(data=request.POST)
-    # if request.method == 'POST' and form.is_valid():
-    #     print('OK!')
-    return JsonResponse({'request_data': request.POST})
+    return demo_response(request)
 
 
-@put(tags=['blog'])
+@put(form=PostCreateForm, tags=['blog'])
 def posts_update(request):
     """
     Update post.
     """
-    # form = BarForm(data=request.body)
-    # if request.method == 'POST' and form.is_valid():
-    #     print('OK!')
-    return JsonResponse({'request_data': request.body})
+    return demo_response(request)
 
 
-@patch(tags=['blog'])
+@patch(form=PostCreateForm, tags=['blog'])
 def posts_update_partial(request):
     """
     Update post partial.
     """
-    # form = BarForm(data=request.body)
-    # if request.method == 'POST' and form.is_valid():
-    #     print('OK!')
-    return JsonResponse({'request_data': request.body})
+    return demo_response(request)
 
 
 @delete(tags=['blog'])
@@ -64,7 +74,4 @@ def posts_delete(request):
     """
     Delete post.
     """
-    # form = BarForm(data=request.body)
-    # if request.method == 'POST' and form.is_valid():
-    #     print('OK!')
-    return JsonResponse({'request_data': request.body})
+    return demo_response(request)
