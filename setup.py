@@ -2,11 +2,13 @@ from setuptools import setup
 
 README = '''
 Fast create REST API with Swagger documentation based on native django views and forms.
+
+Documentation [here](https://github.com/qvp/django-rest-fast)
 '''
 
 setup(
     name='django-rest-fast',
-    version='0.0.2',
+    version='0.0.3',
     packages=['django_rest_fast'],
     description='Fast create REST API with Swagger documentation based on native django views and forms.',
     long_description=README,
